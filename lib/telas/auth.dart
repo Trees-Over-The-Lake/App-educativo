@@ -5,6 +5,7 @@ class Auth extends StatefulWidget {
   _AuthState createState() => _AuthState();
 }
 
+/// Tela de autenticação de login
 class _AuthState extends State<Auth> {
   final _formKey = GlobalKey<FormState>();
   bool estaLogando = false;
@@ -29,11 +30,25 @@ class _AuthState extends State<Auth> {
               decoration: InputDecoration(labelText: 'Nome de usuário'),
               validator: (value) {
                 if (value.isEmpty || value.length < 4)
-                  return 'O usuário precisa ter no mínimo 4 caracteres!';
+                  return 'O usuário precisa pelo menos 4 caracteres!';
                 return null;
               },
               onSaved: (value) {
-                _formValues['username'] = value;
+                _formValues['email'] = value;
+              },
+            ),
+            TextFormField(
+              key: ValueKey('email'),
+              textCapitalization: TextCapitalization.words,
+              enableSuggestions: false,
+              initialValue: _formValues['email'],
+              decoration: InputDecoration(labelText: 'Email'),
+              validator: (value) {
+                if (_isValidEmail(value)) return 'O email precisa ser válido!';
+                return null;
+              },
+              onSaved: (value) {
+                _formValues['email'] = value;
               },
             ),
             TextFormField(
@@ -46,15 +61,22 @@ class _AuthState extends State<Auth> {
                   return 'A senha deve ter no mínimo 8 caracteres';
                 return null;
               },
-              onSaved: (value) {      
-                  _formValues['password'] = value;
+              onSaved: (value) {
+                _formValues['password'] = value;
               },
             ),
-            ElevatedButton(onPressed: () => {}, child: Text('Registrar')),
             ElevatedButton(onPressed: () => {}, child: Text('Acessar')),
+            ElevatedButton(onPressed: () => {}, child: Text('Registrar')),
           ],
         ),
       )),
     );
+  }
+
+  /// Regex simples de validação de email
+  bool _isValidEmail(String email) {
+    return RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+        .hasMatch(email);
   }
 }
