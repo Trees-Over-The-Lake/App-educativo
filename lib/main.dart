@@ -1,6 +1,7 @@
 import 'package:educativo/telas/auth.dart';
 import 'package:educativo/telas/loading.dart';
 import 'package:educativo/telas/menu.dart';
+import 'package:educativo/telas/registrar.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,9 +16,7 @@ class MyApp extends StatelessWidget {
 
     return FutureBuilder(
       future: _initialization,
-      builder: (context, aSyncSnap) => MultiProvider(
-        providers: [],
-        child: MaterialApp(
+      builder: (context, aSyncSnap) => MaterialApp(
           title: 'EducAPP',
           theme: ThemeData(
             primarySwatch: Colors.deepPurple,
@@ -28,8 +27,10 @@ class MyApp extends StatelessWidget {
                   stream: FirebaseAuth.instance.authStateChanges(),
                   builder: (context, snapshot) =>
                       snapshot.hasData ? Menu() : Auth()),
+          routes: {
+            Registrar.routeName: (ctx) => Registrar(),
+          },
         ),
-      ),
     );
   }
 }
