@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Registrar extends StatefulWidget {
@@ -11,19 +12,21 @@ class Registrar extends StatefulWidget {
 class _RegistrarState extends State<Registrar> {
   final _formKey = GlobalKey<FormState>();
   bool estaLogando = true;
+  var _formValues = {};
 
   @override
   Widget build(BuildContext context) {
-    var _formValues = {};
-
     return Scaffold(
-      appBar: AppBar(title: Text('Registre-se'), centerTitle: true,),
+      appBar: AppBar(
+        title: Text('Registre-se'),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
           child: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.all(30),
-                  child: Column(
+          child: Column(
             children: [
               Text('Registre sua conta:'),
               Text(''),
@@ -32,7 +35,8 @@ class _RegistrarState extends State<Registrar> {
                 textCapitalization: TextCapitalization.words,
                 enableSuggestions: false,
                 initialValue: _formValues['username'],
-                decoration: InputDecoration(labelText: 'Nome de usuário', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: 'Nome de usuário', border: OutlineInputBorder()),
                 validator: (value) {
                   if (value.isEmpty || value.length < 4)
                     return 'O usuário precisa pelo menos 4 caracteres!';
@@ -42,26 +46,33 @@ class _RegistrarState extends State<Registrar> {
                   _formValues['email'] = value;
                 },
               ),
-              SizedBox(height: 1,),
+              SizedBox(
+                height: 1,
+              ),
               TextFormField(
                 key: ValueKey('email'),
                 textCapitalization: TextCapitalization.words,
                 enableSuggestions: false,
                 initialValue: _formValues['email'],
-                decoration: InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: 'Email', border: OutlineInputBorder()),
                 validator: (value) {
-                  if (_isValidEmail(value)) return 'O email precisa ser válido!';
+                  if (!_isValidEmail(value))
+                    return 'O email precisa ser válido!';
                   return null;
                 },
                 onSaved: (value) {
                   _formValues['email'] = value;
                 },
               ),
-              SizedBox(height: 1,),
+              SizedBox(
+                height: 1,
+              ),
               TextFormField(
                 key: ValueKey('password'),
                 initialValue: _formValues['password'],
-                decoration: InputDecoration(labelText: 'Senha', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: 'Senha', border: OutlineInputBorder()),
                 obscureText: true,
                 validator: (value) {
                   if (value.isEmpty || value.length < 8)
@@ -72,32 +83,55 @@ class _RegistrarState extends State<Registrar> {
                   _formValues['password'] = value;
                 },
               ),
-              SizedBox(height: 1,),
+              SizedBox(
+                height: 1,
+              ),
               TextFormField(
                 key: ValueKey('confirmPassword'),
                 initialValue: _formValues['confirmPassword'],
-                decoration: InputDecoration(labelText: 'Confirme a senha', border: OutlineInputBorder()),
+                decoration: InputDecoration(
+                    labelText: 'Confirme a senha',
+                    border: OutlineInputBorder()),
                 obscureText: true,
+                validator: (value) {
+                  if (value == null || value.isEmpty)
+                    return 'O campo de confirmação de senha não pode ser vazio!';
+
+                  return null;
+                },
                 onSaved: (value) {
                   _formValues['confirmPassword'] = value;
                 },
               ),
-              SizedBox(height: 30,),
-              ElevatedButton(onPressed: () {
-                if(!_formKey.currentState.validate()) {
-                  if(!_formValues['confirmPassword'] == _formValues['password'])
-                    
-                  return;
-                }
+              SizedBox(
+                height: 30,
+              ),
+              ElevatedButton(
+                  onPressed: () {
+                    if (!_formKey.currentState.validate() ||
+                        _formValues['password'] !=
+                            _formValues['confirmPassword']) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Há erro em algum dos campos!')));
 
-                _formKey.currentState.save();
-              }, child: Text('Registrar')),
+                      return;
+                    }
+                    _formKey.currentState.save();
+
+                    // Registrando a conta
+                    registrarNoFirebase();
+                  },
+                  child: Text('Registrar'),
+                  style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(fontSize: 20))),
             ],
           ),
         ),
       )),
     );
   }
+
+  void registrarNoFirebase() async {}
 
   /// Regex simples de validação de email
   bool _isValidEmail(String email) {

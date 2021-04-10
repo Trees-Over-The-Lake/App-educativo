@@ -17,20 +17,20 @@ class MyApp extends StatelessWidget {
     return FutureBuilder(
       future: _initialization,
       builder: (context, aSyncSnap) => MaterialApp(
-          title: 'EducAPP',
-          theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
-          ),
-          home: aSyncSnap.connectionState != ConnectionState.done
-              ? Loading()
-              : StreamBuilder(
-                  stream: FirebaseAuth.instance.authStateChanges(),
-                  builder: (context, snapshot) =>
-                      snapshot.hasData ? Menu() : Auth()),
-          routes: {
-            Registrar.routeName: (ctx) => Registrar(),
-          },
+        title: 'EducAPP',
+        theme: ThemeData(
+          primarySwatch: Colors.deepPurple,
         ),
+        home: aSyncSnap.connectionState != ConnectionState.done
+            ? Loading()
+            : StreamBuilder(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) =>
+                    snapshot.hasData ? Menu() : Auth()),
+        routes: {
+          Registrar.routeName: (ctx) => Registrar(),
+        },
+      ),
     );
   }
 }
