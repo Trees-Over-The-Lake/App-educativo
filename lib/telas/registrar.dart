@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -43,7 +44,7 @@ class _RegistrarState extends State<Registrar> {
                   return null;
                 },
                 onSaved: (value) {
-                  _formValues['email'] = value;
+                  _formValues['username'] = value;
                 },
               ),
               SizedBox(
@@ -131,7 +132,22 @@ class _RegistrarState extends State<Registrar> {
     );
   }
 
-  void registrarNoFirebase() async {}
+  void registrarNoFirebase() async {
+    try {
+      UserCredential user = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _formValues['email'], password: _formValues['password']);
+
+      await FirebaseFirestore.instance.collection('/usuarios').add(
+          {'email': _formValues['email'], 'nome': _formValues['username']});
+
+      print(user.credential.token);
+
+      Navigator.of(context).pop();
+    } catch (e) {
+      print('Firebase register error: ' + e.toString());
+    }
+  }
 
   /// Regex simples de validação de email
   bool _isValidEmail(String email) {

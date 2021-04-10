@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:educativo/telas/registrar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 class Auth extends StatefulWidget {
@@ -36,7 +38,7 @@ class _AuthState extends State<Auth> {
                 decoration: InputDecoration(
                     labelText: 'Email', border: OutlineInputBorder()),
                 validator: (value) {
-                  if (_isValidEmail(value))
+                  if (!_isValidEmail(value))
                     return 'O email precisa ser válido!';
                   return null;
                 },
@@ -66,7 +68,18 @@ class _AuthState extends State<Auth> {
                 height: 30,
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!_formKey.currentState.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text('Há erro em algum dos campos!')));
+
+                      return;
+                    }
+                    _formKey.currentState.save();
+
+                    // Login no Firebase
+                    loginFirebase();
+                  },
                   child: Text('Acessar'),
                   style: ElevatedButton.styleFrom(
                       textStyle: TextStyle(fontSize: 20))),
