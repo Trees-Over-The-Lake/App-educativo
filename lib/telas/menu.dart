@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class Menu extends StatelessWidget {
   /// Pegar dados de usuário do Firebase
-  void getFirebaseData() async {
-    var valores =
-        await FirebaseFirestore.instance.collection('/usuarios').get();
+  Future<DocumentSnapshot> getFirebaseData() async {
+    return await FirebaseFirestore.instance
+        .collection('usuarios')
+        .doc(FirebaseAuth.instance.currentUser.uid)
+        .get();
   }
 
   @override
@@ -17,22 +19,30 @@ class Menu extends StatelessWidget {
         centerTitle: true,
       ),
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            UserAccountsDrawerHeader(
-              accountName: Text('testName'),
-              accountEmail: Text('testEmail'),
-              currentAccountPicture: CircleAvatar(
-                child: Text(getInitials('test Name')),
-              ),
-            ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Sair'),
-              onTap: () => firebaseLogout(),
-            ),
-          ],
+        child: FutureBuilder(
+          future: getFirebaseData(),
+          builder: (context, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : ListView(
+                  padding: EdgeInsets.zero,
+                  children: [
+                    UserAccountsDrawerHeader(
+                      accountName: Text(snapshot.data.data()['nome']),
+                      accountEmail: Text(snapshot.data.data()['email']),
+                      currentAccountPicture: CircleAvatar(
+                        child: Text(getInitials(snapshot.data.data()['nome'])),
+                      ),
+                    ),
+                    ListTile(
+                      leading: Icon(Icons.logout),
+                      title: Text('Sair'),
+                      onTap: () => firebaseLogout(),
+                    ),
+                  ],
+                ),
         ),
       ),
     );

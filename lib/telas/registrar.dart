@@ -138,14 +138,17 @@ class _RegistrarState extends State<Registrar> {
           .createUserWithEmailAndPassword(
               email: _formValues['email'], password: _formValues['password']);
 
-      await FirebaseFirestore.instance.collection('/usuarios').add(
-          {'email': _formValues['email'], 'nome': _formValues['username']});
-
-      print(user.credential.token);
+      await FirebaseFirestore.instance
+          .collection('usuarios')
+          .doc(user.user.uid)
+          .set(
+              {'email': _formValues['email'], 'nome': _formValues['username']});
 
       Navigator.of(context).pop();
     } catch (e) {
       print('Firebase register error: ' + e.toString());
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Não foi possível criar a sua conta')));
     }
   }
 
