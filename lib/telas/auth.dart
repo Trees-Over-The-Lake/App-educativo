@@ -32,7 +32,7 @@ class _AuthState extends State<Auth> {
               Text(''),
               TextFormField(
                 key: ValueKey('email'),
-                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.emailAddress,
                 enableSuggestions: false,
                 initialValue: _formValues['email'],
                 decoration: InputDecoration(

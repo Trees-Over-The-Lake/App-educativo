@@ -52,7 +52,7 @@ class _RegistrarState extends State<Registrar> {
               ),
               TextFormField(
                 key: ValueKey('email'),
-                textCapitalization: TextCapitalization.words,
+                keyboardType: TextInputType.emailAddress,
                 enableSuggestions: false,
                 initialValue: _formValues['email'],
                 decoration: InputDecoration(
