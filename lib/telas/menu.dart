@@ -36,6 +36,7 @@ class Menu extends StatelessWidget {
             child: Padding(
                 padding: const EdgeInsets.all(30),
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Center(
                         child:
