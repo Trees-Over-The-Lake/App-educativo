@@ -1,16 +1,11 @@
-# educativo
+# EducAPP
 
-A new Flutter project.
+Modelo simples de aplicativo em Flutter para dar aulas.
 
-## Getting Started
+## Utilizei-me de alguns tutoriais do Youtube
 
-This project is a starting point for a Flutter application.
+Matemática: https://www.youtube.com/watch?v=yzYMuPqYoPM&list=PLF0bG0xlpj9WGaIz6dhoM6EGO1qkYkUsZ
+Alfabeto:   https://www.youtube.com/watch?v=WG48Wk0Fu9Q&list=PLH5UgroIYZj3h7VWWEA0KJQyKrmK-moOk
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Licença
+(MIT)[https://choosealicense.com/licenses/mit/]
