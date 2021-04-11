@@ -8,4 +8,4 @@ Matemática: https://www.youtube.com/watch?v=yzYMuPqYoPM&list=PLF0bG0xlpj9WGaIz6
 Alfabeto:   https://www.youtube.com/watch?v=WG48Wk0Fu9Q&list=PLH5UgroIYZj3h7VWWEA0KJQyKrmK-moOk
 
 ## Licença
-(MIT)[https://choosealicense.com/licenses/mit/]
+[MIT](https://choosealicense.com/licenses/mit/)
