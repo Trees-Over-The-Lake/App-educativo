@@ -37,15 +37,28 @@ class Menu extends StatelessWidget {
                 padding: const EdgeInsets.all(30),
                 child: Column(
                   children: [
+                    Center(
+                        child:
+                            Image(image: AssetImage('images/matematica.jpeg'))),
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () => Navigator.of(context).pushNamed(Matematica.routeName), child: Text('Aprender matemática')),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(Matematica.routeName),
+                          child: Text('Aprender matemática')),
                     ),
                     SizedBox(
+                      height: 100,
+                    ),
+                    Center(
+                        child:
+                            Image(image: AssetImage('images/alfabeto.jpeg'))),
+                    SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () => Navigator.of(context).pushNamed(Portugues.routeName), child: Text('Aprender o alfabeto')),
+                          onPressed: () => Navigator.of(context)
+                              .pushNamed(Portugues.routeName),
+                          child: Text('Aprender o alfabeto')),
                     ),
                   ],
                 ))),
