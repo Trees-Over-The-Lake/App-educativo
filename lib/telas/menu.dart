@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:educativo/aprender/matematica.dart';
+import 'package:educativo/aprender/portugues.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -21,30 +23,53 @@ class Menu extends StatelessWidget {
       drawer: Drawer(
         child: FutureBuilder(
           future: getFirebaseData(),
-          builder: (context, snapshot) => snapshot.connectionState ==
-                  ConnectionState.waiting
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    UserAccountsDrawerHeader(
-                      accountName: Text(snapshot.data.data()['nome']),
-                      accountEmail: Text(snapshot.data.data()['email']),
-                      currentAccountPicture: CircleAvatar(
-                        child: Text(getInitials(snapshot.data.data()['nome'])),
-                      ),
-                    ),
-                    ListTile(
-                      leading: Icon(Icons.logout),
-                      title: Text('Sair'),
-                      onTap: () => firebaseLogout(),
-                    ),
-                  ],
-                ),
+          builder: (context, snapshot) =>
+              snapshot.connectionState == ConnectionState.waiting
+                  ? Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : buildListView(snapshot),
         ),
       ),
+      body: SingleChildScrollView(
+        child: Form(
+            child: Padding(
+                padding: const EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pushNamed(Matematica.routeName), child: Text('Aprender matemática')),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                          onPressed: () => Navigator.of(context).pushNamed(Portugues.routeName), child: Text('Aprender o alfabeto')),
+                    ),
+                  ],
+                ))),
+      ),
+    );
+  }
+
+  ListView buildListView(AsyncSnapshot snapshot) {
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        UserAccountsDrawerHeader(
+          accountName: Text(snapshot.data.data()['nome']),
+          accountEmail: Text(snapshot.data.data()['email']),
+          currentAccountPicture: CircleAvatar(
+            child: Text(getInitials(snapshot.data.data()['nome'])),
+          ),
+        ),
+        ListTile(
+          leading: Icon(Icons.logout),
+          title: Text('Sair'),
+          onTap: () => firebaseLogout(),
+        ),
+      ],
     );
   }
 

@@ -1,3 +1,5 @@
+import 'package:educativo/aprender/matematica.dart';
+import 'package:educativo/aprender/portugues.dart';
 import 'package:educativo/telas/auth.dart';
 import 'package:educativo/telas/loading.dart';
 import 'package:educativo/telas/menu.dart';
@@ -28,6 +30,8 @@ class MyApp extends StatelessWidget {
                     snapshot.hasData ? Menu() : Auth()),
         routes: {
           Registrar.routeName: (ctx) => Registrar(),
+          Matematica.routeName: (ctx) => Matematica(),
+          Portugues.routeName: (ctx) => Portugues(),
         },
       ),
     );
